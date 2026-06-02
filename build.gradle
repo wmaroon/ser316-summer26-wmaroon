@@ -1,0 +1,139 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.26'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'jacoco'
+    id 'checkstyle'
+}
+
+repositories { mavenCentral() }
+
+ext {
+    junitVersion = '5.9.2'
+    jacocoVersion = '0.8.12'
+    spotbugsToolVersion = '4.9.8'
+    checkstyleVersion = '10.3.4'
+}
+
+dependencies {
+    testImplementation files('cls/')
+}
+
+testing {
+    suites {
+        test(JvmTestSuite) {
+            useJUnitJupiter()
+
+            dependencies {
+                implementation project.dependencies.create("org.junit.jupiter:junit-jupiter-api:5.9.2")
+                implementation project.dependencies.create("org.junit.jupiter:junit-jupiter-params:5.9.2")
+                runtimeOnly   project.dependencies.create("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+            }
+        }
+    }
+}
+
+application {
+    mainClass.set('Main')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat = "full"
+        showStandardStreams = true
+    }
+}
+
+jacoco {
+    toolVersion = jacocoVersion
+}
+test.finalizedBy jacocoTestReport
+
+// Optionally enable static analysis with -PstaticAnalysis=true
+if (project.hasProperty('staticAnalysis')) {
+    apply plugin: 'com.github.spotbugs'
+//    apply plugin: 'pmd'
+
+    spotbugs {
+        ignoreFailures = true
+        showProgress = true
+    }
+
+    // Configure SpotBugs tasks to generate HTML reports
+    tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
+        reports {
+            html {
+                required = true
+                outputLocation = file("$buildDir/reports/spotbugs/${name}.html")
+                stylesheet = 'fancy-hist.xsl'
+            }
+            xml {
+                required = false
+            }
+        }
+    }
+
+    // add PMD config if desired maybe used in assign 6
+//    pmd {
+//        toolVersion = '6.52.0'
+//        ruleSets = []
+//        ignoreFailures = true
+//    }
+}
+
+// Checkstyle configuration (always available)
+checkstyle {
+    toolVersion = checkstyleVersion
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+// Demo runner task
+tasks.register('runDemo', JavaExec) {
+    group = 'application'
+    description = 'Run the library demo'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set('Main')
+}
+
+
+tasks.register('blackBoxTest', Test) {
+    description = 'Runs only Black Box tests (Assignment 2)'
+    group = 'verification'
+
+    useJUnitPlatform()
+
+    include '**/CheckoutBlackBoxSample.class'
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat = "full"
+        showStandardStreams = true
+    }
+}
+
+tasks.register('whiteBoxTest', Test) {
+    description = 'Runs only White Box tests (Assignment 3)'
+    group = 'verification'
+
+    useJUnitPlatform()
+
+    include '**/CheckoutWhiteBoxSample.class'
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat = "full"
+        showStandardStreams = true
+    }
+}
+
