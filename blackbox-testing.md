@@ -188,48 +188,66 @@ At least some of your tests should verify observable state changes, not just ret
 
 ### Easter Eggs Found
 List any easter egg messages you observed:
-- 
-- 
+- "Testing can show the presence of bugs,"
+- "but never their absence"
+- "- Dijkstra"
+- "The happy path matters too."
+- "Renew, reuse, recycle... books."
+- "Reference books are meant to be consulted, not carried home."
 
 ### Implementation Results
 
 | Implementation | Bugs Found (count) |
-|----------------|---------------------|
-| Checkout0      | |
-| Checkout1      | |
-| Checkout2      | |
-| Checkout3      | |
+|----------------|--------------------|
+| Checkout0      |         4          |
+| Checkout1      |         4          |
+| Checkout2      |         4          |
+| Checkout3      |         4          |
+(for the sake of keeping it managable I grouped a few like bugs together)
 
 ### Bugs Discovered
 List distinct bugs you identified for each implementation. Each bug must cite at least one test case that revealed it.
 
 **Checkout0:**
-- Bug 1: [Brief description] — Revealed by: [Test ID]
+- Bug 1: Successful new checkouts do not decrease available copies. — Revealed by: T3, T15, T16, T20, T24
+- Bug 2: Reference books return the wrong error code. 2.0 instead of 5.0. — Revealed by: T10
+- Bug 3: Faculty patrons at the maximum checkout limit can still checkout. — Revealed by: T23
+- Bug 4: Child/student below-limit cases incorrectly return warning code 1.1 instead of success 0.0. — Revealed by: T12, T18
 
 **Checkout1:**
-- Bug 1: [Brief description] — Revealed by: [Test ID]
+- Bug 1: Successful checkout doesn't add checked out book to the patrons list. — Revealed by: T3, T15, T16, T24
+- Bug 2: Reference books incorrectly change available copies. — Revealed by: T10
+- Bug 3: Faculty at the maximum checkout limit are allowed instead of rejected. — Revealed by: T23
+- Bug 4: Student/child below-limit cases incorrectly return warning code 1.1 instead of success 0.0. — Revealed by: T12, T18
 
 **Checkout2:**
-- Bug 1: [Brief description] — Revealed by: [Test ID]
+- Bug 1: Unavailable books incorrectly return success code 0.0 instead of error 2.0. — Revealed by: T1
+- Bug 2: Renewals return 0.0 instead of 0.1. — Revealed by: T11, T19
+- Bug 3: Near-limit warning cases return the wrong code. — Revealed by: T13
+- Bug 4: Faculty at the maximum checkout limit are allowed to checkout. — Revealed by: T23
 
 **Checkout3:**
-- Bug 1: [Brief description] — Revealed by: [Test ID]
+- Bug 1: Renewals decrease available copies. — Revealed by: T11, T19
+- Bug 2: Reference books incorrectly change available copies. — Revealed by: T10
+- Bug 3: Overdue warning cases return 0.0 instead of 1.0. — Revealed by: T9
+- Bug 4: Faculty patrons at the maximum checkout limit are allowed instead of rejected. — Revealed by: T23
 
 ### Comparative Analysis
 Compare the four implementations:
-- Which bugs are most critical (cause the worst failures)?
-- Which implementation would you use if you had to choose?
-- Why? Justify your choice considering bug severity and frequency.
+- Which bugs are most critical (cause the worst failures)? Bugs that don't correctly change the system are the most critical they lead to other failures .
+- Which implementation would you use if you had to choose? Checkout1
+- Why? Justify your choice considering bug severity and frequency. It won't lead to system failures, the errors are more contained. The worst case is the faculty checkout more books than allowed, which isn't that big of a deal.
 
 ---
 
 ## Part 5: Reflection
 
-**Which testing technique was most effective for finding bugs?**
+**Which testing technique was most effective for finding bugs?** Creating your own blackbox testing around expected system behaviour.
 
-**What was the most challenging aspect of this assignment?**
+**What was the most challenging aspect of this assignment?** Wrapping my head around equivalence partitions was challenging. I went over many iterations trying to figure out a way that made sense. Creating the tests would have been the most challenging but the example tests were very helpful.
 
-**How did you decide on your EP and BVA?**
+**How did you decide on your EP and BVA?** I used the attributes of the Patron and Book classes to find groups of equivalence partitions. The requirements had values for most of those, I took those values and went way below, just below, on, just above, and way above for the most part.
 
 **Describe one test where checking only the return value would NOT have been sufficient to detect a bug.**
+Most of them, the basic successful checkokut would not be sufficient. It could return as successful but it might not change the available books, or update the list of checkout books of the patron.
 
