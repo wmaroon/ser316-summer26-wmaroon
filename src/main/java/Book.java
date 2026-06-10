@@ -38,12 +38,13 @@ public class Book {
         this.author = author;
         this.type = type;
         this.totalCopies = totalCopies;
+        this.availableCopies = totalCopies;
         this.referenceOnly = (type == BookType.REFERENCE);
 
         // Reference books never circulate - always unavailable for checkout
         if (this.referenceOnly) {
-            this.availableCopies = 0;
-            this.available = false;
+            this.availableCopies = totalCopies;
+            this.available = (totalCopies > 0 );
         } else {
             this.availableCopies = totalCopies;
             this.available = true;

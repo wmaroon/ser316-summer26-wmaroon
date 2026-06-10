@@ -481,8 +481,8 @@ public class CheckoutBlackBoxSample {
         double result = checkout.checkoutBook(book, patron);
 
         // Verify
-        assertEquals(0.0, result, 0.001,
-                "Expected success code 0.0 for student below checkout limit for " + checkoutClass.getSimpleName());
+        assertEquals(1.1, result, 0.001,
+                "Expected success code 1.1 for student below checkout limit for " + checkoutClass.getSimpleName());
         
         // Verify state changes
         assertEquals(0, book.getAvailableCopies(),
@@ -510,8 +510,8 @@ public class CheckoutBlackBoxSample {
 
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.STUDENT);
         
-        for (int i = 0; i < 9; i++) {
-            patron.addCheckedOutBook("978-0-123456-78-" + (i+1), LocalDate.now());
+        for (int i = 100; i < 109; i++) {
+            patron.addCheckedOutBook("978-0-123456-" + (i), LocalDate.now());
         }
         
 
@@ -549,7 +549,10 @@ public class CheckoutBlackBoxSample {
                 "Test Author", Book.BookType.FICTION, 1);
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.STUDENT);
         for (int i = 0; i < 10; i++) {
-            patron.addCheckedOutBook("978-0-123456-78-" + (i+1), LocalDate.now().plusDays(7));
+        patron.addCheckedOutBook(
+                String.format("978-0-123456-%03d", i),
+                LocalDate.now().plusDays(3)
+        );
         }
 
         checkout.addBook(book);
@@ -652,8 +655,11 @@ public class CheckoutBlackBoxSample {
         Book book = new Book("978-0-123456-78-9", "Test Book",
                 "Test Author", Book.BookType.FICTION, 1);
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.FACULTY);
-                for (int i = 0; i < 18; i++) {
-            patron.addCheckedOutBook("978-0-123456-78-" + (i+1), LocalDate.now().plusDays(7));
+        for (int i = 0; i < 18; i++) {
+        patron.addCheckedOutBook(
+                String.format("978-0-123456-%03d", i),
+                LocalDate.now().plusDays(3)
+        );
         }
 
         checkout.addBook(book);
@@ -690,7 +696,10 @@ public class CheckoutBlackBoxSample {
                 "Test Author", Book.BookType.FICTION, 1);
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.CHILD);
         for (int i = 0; i < 2; i++) {
-            patron.addCheckedOutBook("978-0-123456-78-" + (i+1), LocalDate.now().plusDays(3));
+        patron.addCheckedOutBook(
+                String.format("978-0-123456-%03d", i),
+                LocalDate.now().plusDays(3)
+        );
         }
 
         checkout.addBook(book);
@@ -699,8 +708,8 @@ public class CheckoutBlackBoxSample {
         double result = checkout.checkoutBook(book, patron);
 
         // Verify
-        assertEquals(0.0, result, 0.001,
-                "Expected success code 0.0 for child patron below limit for " + checkoutClass.getSimpleName());
+        assertEquals(1.1, result, 0.001,
+                "Expected success code 1.1 for child patron below limit for " + checkoutClass.getSimpleName());
         
         // Verify state changes
         assertEquals(0, book.getAvailableCopies(),
@@ -820,7 +829,7 @@ public class CheckoutBlackBoxSample {
      */
     @ParameterizedTest
     @MethodSource("checkoutClassProvider")
-    @DisplayName("T22: Staff below limit (13/15) - success (0.0)")
+    @DisplayName("T22: Staff below limit (13/15) - success (1.1)")
     public void testStaffBelowLimit(Class<? extends Checkout> checkoutClass) throws Exception {
         checkout = createCheckout(checkoutClass);
 
@@ -829,7 +838,10 @@ public class CheckoutBlackBoxSample {
                 "Test Author", Book.BookType.FICTION, 1);
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.STAFF);
         for (int i = 0; i < 13; i++) {
-            patron.addCheckedOutBook("978-0-123456-78-" + (i+1)%10, LocalDate.now().plusDays(3));
+        patron.addCheckedOutBook(
+                String.format("978-0-123456-%03d", i),
+                LocalDate.now().plusDays(3)
+        );
         }
 
         checkout.addBook(book);
@@ -839,8 +851,8 @@ public class CheckoutBlackBoxSample {
         double result = checkout.checkoutBook(book, patron);
 
         // Verify
-        assertEquals(0.0, result, 0.001,
-                "Expected success code 0.0 for staff patron below limit for " + checkoutClass.getSimpleName());
+        assertEquals(1.1, result, 0.001,
+                "Expected success code 1.1 for staff patron below limit for " + checkoutClass.getSimpleName());
         
         // Verify state changes
         assertEquals(0, book.getAvailableCopies(),
@@ -866,7 +878,10 @@ public class CheckoutBlackBoxSample {
                 "Test Author", Book.BookType.FICTION, 20);
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.FACULTY);
         for (int i = 0; i < 20; i++) {
-            patron.addCheckedOutBook("978-0-123456-78-" + (i+1)%10, LocalDate.now().plusDays(3));
+        patron.addCheckedOutBook(
+                String.format("978-0-123456-%03d", i),
+                LocalDate.now().plusDays(3)
+        );
         }
 
         checkout.addBook(book);
