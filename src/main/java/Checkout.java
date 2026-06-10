@@ -243,7 +243,7 @@ public class Checkout {
             return false;
         }
 
-        return typeString == expectedType.toString();
+        return typeString.equals(expectedType.toString());
     }
 
     /**
