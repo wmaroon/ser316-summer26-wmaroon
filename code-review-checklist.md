@@ -33,6 +33,20 @@ Review ALL source files (in main not test) in the project and identify defects u
 | 9 | Checkout.java | 129 | CS | The constructor Checkout.Transaction(Patron, Book, LocalDate, LocalDate) is never used locally | L |
 | 10 | Book.java | 137 | CG | Hash magic number in plain text published to code | C |
 
+## Defect Log Assignment 3
+| Defect ID | File | Line(s) | Category | Description | Severity |
+|-----------|------|---------|----------|-------------|----------|
+| 1 | Book.java | 1-2 | CS | `java.util.ArrayList` and `java.util.List` aren't used | L |
+| 2 | Checkout.java | 16 | CG | Misleading variable name `bookList` - variable is a `Map<String, Book>` not a List; name violates Java naming conventions | M |
+| 3 | Patron.java | 130 - 132 | CG | `chkSuspended()` same as `isAccountSuspended()` | M |
+| 4 | Book.java | 106 | FD | Logic error: `returnBook()` won't let books with more than 100 copies avaible be checked out | H |
+| 5 | Patron.java | 151-152 | CG | Empty else block in `addFine()` method suggests incomplete logic | L |
+| 6 | Checkout.java | 224 | FD | `isPatronType()` compares Strings with == instead of .equals() | H |
+| 7 | Patron.java | 180-184 | CG | `hasBookCheckedOut()` is unnecessarily complex | L |
+| 8 | checkout.java | 13 | CS | `MAX_FINE_AMOUNT` is mutable, should be static final | M |
+| 9 | Main.java | 12-77 | FD | relies on `checkoutBook()` which isn't implemented so it returns 0.0 | M |
+
+
 **Severity Levels:**
 - **Critical**: Causes system failure, data corruption, or security issues
 - **High**: Major functional defect or significant quality issue
