@@ -10,7 +10,7 @@ import java.util.Map;
  * Handles book checkouts, returns, renewals, and fine calculations.
  */
 public class Checkout {
-    public static double MAX_FINE_AMOUNT = 25.0;
+    public static final double MAX_FINE_AMOUNT = 25.0;
 
     private Map<String, Book> bookList; // ISBN -> Book
     private Map<String, Patron> patrons; // PatronID -> Patron
@@ -243,7 +243,7 @@ public class Checkout {
             return false;
         }
 
-        return typeString == expectedType.toString();
+        return typeString.equals(expectedType.toString());
     }
 
     /**
