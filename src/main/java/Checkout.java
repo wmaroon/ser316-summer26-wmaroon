@@ -17,11 +17,6 @@ public class Checkout {
     private static final double SUCCESS_WARNING_OVERDUE = 1.0;
     private static final double SUCCESS_WARNING_MAX = 1.1;
 
-    private static final int FACULTY_MAX = 20;
-    private static final int STAFF_MAX = 15;
-    private static final int STUDENT_MAX = 10;
-    private static final int PUBLIC_MAX = 5;
-    private static final int CHILD_MAX = 3;
     private static final int MAX_OVERDUE = 3;
     private static final double MAX_FINE = 10.0;
     private static final double FINE_FIRST_WEEK = 0.25;
