@@ -1,7 +1,9 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -118,8 +120,16 @@ public class CheckoutWhiteBoxSample {
 
     @Test
     public void testReturnBookInvalidPatron() {
+        
+        Book b = new Book(
+        "1234567890",
+        "Book",
+        "Author",
+        Book.BookType.FICTION,
+        1);
+        
         assertEquals(-1.0,
-                checkout.returnBook("123", null));
+                checkout.returnBook(b, null));
     }
 
     @Test
@@ -143,15 +153,23 @@ public class CheckoutWhiteBoxSample {
 
         checkout.checkoutBook(b, p);
 
-        double fine = checkout.returnBook("1234567890", p);
+        double fine = checkout.returnBook(b, p);
 
         assertEquals(0.0, fine);
     }
 
     @Test
     public void testReturnBookNullPatron() {
+
+        Book b = new Book(
+                "1234567890",
+                "Book",
+                "Author",
+                Book.BookType.FICTION,
+                1);
+
         assertEquals(-1.0,
-            checkout.returnBook("1234567890", null));
+            checkout.returnBook(b, null));
     }
 
 }

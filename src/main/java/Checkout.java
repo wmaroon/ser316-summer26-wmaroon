@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Manages library checkout operations.
  * Handles book checkouts, returns, renewals, and fine calculations.
@@ -346,39 +347,39 @@ public class Checkout {
      * @param patron The patron returning the book
      * @return Fine amount charged (0.0 if not overdue)
      */
-    public double returnBook(String isbn, Patron patron) {
-        if (patron == null || !patron.hasBookCheckedOut(isbn)) {
-            return -1.0;
-        }
-
-        Book book = bookList.get(isbn);
-        if (book == null) {
-            return -1.0;
-        }
-
-        LocalDate dueDate = patron.getCheckedOutBooks().get(isbn);
-        LocalDate today = LocalDate.now();
-        long daysOverdue = ChronoUnit.DAYS.between(dueDate, today);
-
-        double fine = 0.0;
-        if (daysOverdue > 0) {
-            fine = calculateFine((int) daysOverdue, book.getType());
-            patron.addFine(fine);
-        }
-
-        // Update patron and book
-        patron.removeCheckedOutBook(isbn);
-        book.returnBook();
-
-        // Update transaction history to mark book as returned
-        for (Transaction t : history) {
-            if (t.patron.equals(patron) && t.book.equals(book) && t.returnDate == null) {
-                t.returnDate = today;
-                break;
+    public double returnBook(Book book, Patron patron) {
+        
+        try {
+            if (patron == null || !patron.hasBookCheckedOut(book.getIsbn())) {
+                return -1.0;
             }
-        }
 
-        return fine;
+            LocalDate dueDate = patron.getCheckedOutBooks().get(book.getIsbn());
+            LocalDate today = LocalDate.now();
+            long daysOverdue = ChronoUnit.DAYS.between(dueDate, today);
+
+            double fine = 0.0;
+            if (daysOverdue > 0) {
+                fine = calculateFine((int) daysOverdue, book.getType());
+                patron.addFine(fine);
+            }
+
+            // Update patron and book
+            patron.removeCheckedOutBook(book.getIsbn());
+            book.returnBook();
+
+            // Update transaction history to mark book as returned
+            for (Transaction t : history) {
+                if (t.patron.equals(patron) && t.book.equals(book) && t.returnDate == null) {
+                    t.returnDate = today;
+                    break;
+                }
+            }
+
+            return fine;
+        } catch (Exception e) {
+        return -1.0;
+        }
     }
 
     /**
