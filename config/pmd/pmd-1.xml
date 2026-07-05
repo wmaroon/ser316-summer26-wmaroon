@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<ruleset name="SER316 Assignment 5 - PMD Ruleset"
+  xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+  http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        PMD ruleset for Assignment 5 - Refactoring/Metrics
+        Thresholds are intentionally LOW to show violations on small code.
+        In Task 4, you will research and add additional rules.
+    </description>
+
+    <!-- COMPLEXITY METRICS -->
+    <!-- Cyclomatic Complexity: measures decision points (if, while, for, etc.) -->
+    <rule ref="category/java/design.xml/CyclomaticComplexity">
+        <properties>
+            <property name="methodReportLevel" value="2"/>
+        </properties>
+    </rule>
+
+    <!-- NPath Complexity: measures execution paths through a method -->
+    <rule ref="category/java/design.xml/NPathComplexity">
+        <properties>
+            <property name="reportLevel" value="10"/>
+        </properties>
+    </rule>
+
+    <!-- NCSS Count: Non-Commenting Source Statements -->
+    <!-- Counts actual statements instead of lines (more reliable than line count) -->
+    <rule ref="category/java/design.xml/NcssCount">
+        <properties>
+            <property name="methodReportLevel" value="15"/>
+            <property name="classReportLevel" value="100"/>
+        </properties>
+    </rule>
+
+    <!-- COUPLING METRICS -->
+    <!-- Measures dependencies between classes -->
+    <rule ref="category/java/design.xml/CouplingBetweenObjects">
+        <properties>
+            <property name="threshold" value="2"/>
+        </properties>
+    </rule>
+
+    <!-- Prefer interfaces over concrete implementations -->
+    <rule ref="category/java/bestpractices.xml/LooseCoupling" />
+
+    <!-- Discourage System.out.println in production code -->
+    <rule ref="category/java/bestpractices.xml/SystemPrintln" />
+
+    <!--
+    TODO for Task 4: Research PMD documentation and add more rules here.
+    Consider rules that help detect:
+    - Unused/dead code
+    - Empty code blocks
+    - Code duplication
+    - Naming conventions
+    - Other code smells from Fowler's book
+    -->
+
+</ruleset>
