@@ -30,6 +30,27 @@ public class Book {
      * @param totalCopies Total number of copies owned by library
      */
     public Book(String isbn, String title, String author, BookType type, int totalCopies) {
+        
+        if (isbn == null || isbn.isBlank()) {
+            throw new IllegalArgumentException("ISBN is required.");
+        }
+
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Title is required.");
+        }
+
+        if (author == null || author.isBlank()) {
+            throw new IllegalArgumentException("Author is required.");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("Book type is required.");
+        }
+
+        if (totalCopies < 0) {
+            throw new IllegalArgumentException("Total copies cannot be negative.");
+        }        
+        
         this.isbn = isbn;
         this.title = title;
         this.author = author;

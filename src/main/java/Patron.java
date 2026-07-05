@@ -34,6 +34,23 @@ public class Patron {
      * @param type Patron type (determines checkout limits)
      */
     public Patron(String patronId, String name, String email, PatronType type) {
+        if (patronId == null || patronId.isBlank()) {
+            throw new IllegalArgumentException("Patron ID is required.");
+        }
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name is required.");
+        }
+
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email is required.");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("Patron type is required.");
+        }
+        
+        
         this.patronId = patronId;
         this.name = name;
         this.email = email;
