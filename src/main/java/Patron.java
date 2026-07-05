@@ -110,20 +110,14 @@ public class Patron {
      * @return Maximum checkout limit
      */
     public int getMaxCheckoutLimit() {
-        switch (type) {
-            case FACULTY:
-                return 20;
-            case STAFF:
-                return 15;
-            case STUDENT:
-                return 10;
-            case PUBLIC:
-                return 5;
-            case CHILD:
-                return 3;
-            default:
-                return 5;
-        }
+        return switch (type) {
+            case FACULTY -> 20;
+            case STAFF -> 15;
+            case STUDENT -> 10;
+            case PUBLIC -> 5;
+            case CHILD -> 3;
+            default -> 5;
+        };
     }
 
     /**
@@ -132,12 +126,14 @@ public class Patron {
      * @return Loan period in days
      */
     public int getLoanPeriodDays() {
-        if(type==PatronType.FACULTY)return 60;
-        else if(type==PatronType.STAFF)return 45;
-        else if(type==PatronType.STUDENT)return 30;
-        else if(type==PatronType.PUBLIC)return 21;
-        else if(type==PatronType.CHILD)return 14;
-        else return 21;
+        return switch (type) {
+            case FACULTY -> 60;
+            case STAFF -> 45;
+            case STUDENT -> 30;
+            case PUBLIC -> 21;
+            case CHILD -> 14;
+            default -> 21;
+        };
     }
 
     public void resetFines() {

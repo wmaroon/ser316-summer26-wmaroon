@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 
 /**
  * Demo application for the Library Management System.

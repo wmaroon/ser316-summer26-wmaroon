@@ -33,9 +33,9 @@ public class Checkout {
     private static final double PATRON_UNPAID_FINES = 4.1; // $10.00
     private static final double BOOK_REFERENCE_ONLY = 5.0;
 
-    private Map<String, Book> bookList; // ISBN -> Book
-    private Map<String, Patron> patrons; // PatronID -> Patron
-    private List<Transaction> history; //
+    private final Map<String, Book> bookList; // ISBN -> Book
+    private final Map<String, Patron> patrons; // PatronID -> Patron
+    private final List<Transaction> history; //
 
     /**
      * Inner class to track checkout transactions.
