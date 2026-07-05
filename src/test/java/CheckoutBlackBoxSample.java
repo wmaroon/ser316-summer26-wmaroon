@@ -1,13 +1,13 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-
 import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Sample Black-Box tests for the Checkout system.
@@ -107,7 +107,12 @@ public class CheckoutBlackBoxSample {
         // Setup: Create unavailable book
         Book book = new Book("978-0-123456-78-9", "Test Book",
                 "Test Author", Book.BookType.FICTION, 5);
-        book.setAvailableCopies(0);  // We are pretending it has been checked out by others and is not available anymore
+        // removed due to encapulation issues - we cannot directly set availableCopies
+        //book.setAvailableCopies(0);  // We are pretending it has been checked out by others and is not available anymore
+
+        for (int i = 0; i < 5; i++) {
+        book.checkout();
+        }
 
         Patron patron = new Patron("P001", "Test Patron", "test@example.com",
                 Patron.PatronType.STUDENT);
@@ -467,7 +472,7 @@ public class CheckoutBlackBoxSample {
         // Setup
         Book book = new Book("978-0-123456-78-9", "Test Book",
                 "Test Author", Book.BookType.FICTION, 1);
-        book.setAvailableCopies(1); // Ensure book is available
+        // book.setAvailableCopies(1); // Ensure book is available
 
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.STUDENT);
         for (int i = 0; i < 8; i++) {
@@ -506,7 +511,7 @@ public class CheckoutBlackBoxSample {
         // Setup
         Book book = new Book("978-0-123456-78-9", "Test Book",
                 "Test Author", Book.BookType.FICTION, 1);
-        book.setAvailableCopies(1); // Ensure book is available
+        // book.setAvailableCopies(1); // Ensure book is available
 
         Patron patron = new Patron("P001", "Test Patron", "test@example.com", Patron.PatronType.STUDENT);
         

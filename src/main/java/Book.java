@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a book in the library system.
@@ -85,10 +83,10 @@ public class Book {
     }
 
     // Setters
-    public void setAvailableCopies(int copies) {
+    /*    public void setAvailableCopies(int copies) {
         this.availableCopies = copies;
         this.available = (copies > 0);
-    }
+    }*/
 
     /**
      * Decrements available copies when book is checked out.
