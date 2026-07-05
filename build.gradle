@@ -63,7 +63,7 @@ test.finalizedBy jacocoTestReport
 // Optionally enable static analysis with -PstaticAnalysis=true
 if (project.hasProperty('staticAnalysis')) {
     apply plugin: 'com.github.spotbugs'
-//    apply plugin: 'pmd'
+    apply plugin: 'pmd'
 
     spotbugs {
         ignoreFailures = true
@@ -85,11 +85,15 @@ if (project.hasProperty('staticAnalysis')) {
     }
 
     // add PMD config if desired maybe used in assign 6
-//    pmd {
-//        toolVersion = '6.52.0'
-//        ruleSets = []
-//        ignoreFailures = true
-//    }
+    pmd {
+        toolVersion = '7.0.0'
+        ruleSets = []
+        ignoreFailures = true
+    }
+
+    tasks.withType(Pmd) {
+        ruleSetFiles = files("${rootDir}/config/pmd/pmd-1.xml")
+    }
 }
 
 // Checkstyle configuration (always available)
